@@ -1,0 +1,7 @@
+.git
+.gitignore
+.github
+LICENSE
+*.md
+assets
+railway-template.json

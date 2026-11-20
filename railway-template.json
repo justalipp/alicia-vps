@@ -1,0 +1,65 @@
+{
+  "name": "Alicia-VPS | Ubuntu SSH menggunakan Railway",
+  "description": "Container Ubuntu 24.04 dengan SSH, Node.js 26, dan PM2. Image ringan, deploy cepat, hanya perlu mengisi ROOT_PASSWORD.",
+  "image": "https://ganga--link--ghhzdp9sv8hk.code.run/i/xfhpfv2bgt",
+  "readme": "# Alicia-VPS: SSH Ubuntu Ringan untuk Railway\n\n![Alicia-VPS](https://ganga--link--ghhzdp9sv8hk.code.run/i/xfhpfv2bgt)\n\nContainer Ubuntu 24.04 dengan SSH aktif, **Node.js 26** dan **PM2** sudah terpasang.\n\n## Langkah Deploy\n1. Isi **ROOT_PASSWORD** (wajib) di tab Variables\n2. Buka **TCP Proxy** ke port `22` (Settings > Networking)\n3. Deploy ulang, lalu masuk:\n\n```bash\nssh root@<domain-railway> -p <port>\n```\n\n## Variabel\n- `ROOT_PASSWORD` (**wajib**): password root\n- `VPS_HOSTNAME` (opsional): hostname custom\n- `SSH_USERNAME` + `SSH_PASSWORD` (opsional): user tambahan dengan sudo\n- `AUTHORIZED_KEYS` (opsional): public key SSH untuk root\n\n## Bawaan\n- Node.js 26.x + npm\n- PM2 (global)\n- neofetch, git, htop, tmux, vim, nano\n\n## Resource\nRAM, CPU, dan disk mengikuti paket Railway kamu. Naikkan limit service di dashboard untuk menambah RAM.\n\n## Kontak\n- Telegram: https://t.me/akuTonyStark\n- Channel: https://t.me/aboutAlicia\n\n© Alicia-VPS",
+  "services": [
+    {
+      "name": "alicia-vps",
+      "source": {
+        "repo": "https://github.com/GANTI-USERNAME-GITHUB/alicia-vps",
+        "branch": "main"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "Dockerfile"
+      },
+      "deploy": {
+        "startCommand": "/usr/local/bin/entrypoint.sh",
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10,
+        "sleepApplication": false
+      },
+      "networking": {
+        "restricted": false
+      },
+      "variables": {
+        "ROOT_PASSWORD": {
+          "required": true,
+          "secret": true,
+          "description": "Password root (sangat wajib). Container tidak akan start tanpa ini. Ganti password setelah login pertama."
+        },
+        "VPS_HOSTNAME": {
+          "required": false,
+          "secret": false,
+          "description": "Hostname custom untuk container (opsional)."
+        },
+        "SSH_USERNAME": {
+          "required": false,
+          "secret": false,
+          "description": "Nama user tambahan (opsional). Isi bersama SSH_PASSWORD."
+        },
+        "SSH_PASSWORD": {
+          "required": false,
+          "secret": true,
+          "description": "Password user tambahan (opsional). Isi bersama SSH_USERNAME."
+        },
+        "AUTHORIZED_KEYS": {
+          "required": false,
+          "secret": true,
+          "description": "Public key SSH untuk login root (opsional). Login password tetap aktif."
+        }
+      }
+    }
+  ],
+  "proxy": {
+    "application": "alicia-vps-ssh",
+    "ports": [
+      {
+        "port": 22,
+        "protocol": "tcp",
+        "service": "alicia-vps"
+      }
+    ]
+  }
+}
