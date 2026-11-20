@@ -7,7 +7,7 @@
     {
       "name": "alicia-vps",
       "source": {
-        "repo": "https://github.com/GANTI-USERNAME-GITHUB/alicia-vps",
+        "repo": "https://github.com/justalipp/alicia-vps",
         "branch": "main"
       },
       "build": {
