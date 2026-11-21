@@ -1,5 +1,7 @@
 # Alicia-VPS
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/u0uXyx?referralCode=FFuTVa&utm_medium=integration&utm_source=template&utm_campaign=generic)
+
 Container **Ubuntu 24.04** dengan **SSH**, **Node.js 26**, dan **PM2** untuk Railway.
 Cepat, ringan, dan siap dipakai sebagai "VPS mini" untuk menjalankan bot atau app Node.
 
