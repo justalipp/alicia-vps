@@ -1,0 +1,30 @@
+{
+  "name": "Alicia-VPS | Ubuntu SSH",
+  "description": "Ubuntu 24.04 SSH server ringan untuk Railway. Akses root, Node.js 26 + PM2, neofetch. Hanya ROOT_PASSWORD yang wajib.",
+  "readme": "# Alicia-VPS\n\nUbuntu 24.04 + OpenSSH + Node.js 26 + PM2.\n\n## Langkah\n1. Isi **ROOT_PASSWORD** di Variables\n2. Settings -> Networking -> **TCP Proxy** port `22`\n3. Redeploy lalu `ssh root@<domain> -p <port>`\n\n## Variabel\n- `ROOT_PASSWORD` (wajib)\n- `HOSTNAME` (opsional)\n- `SSH_USERNAME` + `SSH_PASSWORD` (opsional, user sudo)\n- `TZ` (opsional, contoh `Asia/Jakarta`)\n- `AUTHORIZED_KEYS` (opsional, public key untuk root)\n\nTelegram: t.me/akuTonyStark | t.me/aboutAlicia",
+  "services": [
+    {
+      "name": "alicia-vps",
+      "source": { "repo": "https://github.com/justalipp/alicia-vps", "branch": "main" },
+      "build": { "builder": "DOCKERFILE", "dockerfilePath": "Dockerfile" },
+      "deploy": {
+        "startCommand": "/usr/local/bin/alicia-start",
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10,
+        "healthcheckTimeout": 120,
+        "sleepApplicationStop": true,
+        "multiRegion": false
+      },
+      "networking": { "restricted": false },
+      "variables": {
+        "ROOT_PASSWORD":   { "required": true,  "secret": true,  "description": "Password root (wajib). Container tidak akan jalan tanpa ini." },
+        "HOSTNAME":        { "required": false, "secret": false, "description": "Hostname kustom (opsional)." },
+        "SSH_USERNAME":    { "required": false, "secret": false, "description": "Nama user tambahan. Isi bersama SSH_PASSWORD." },
+        "SSH_PASSWORD":    { "required": false, "secret": true,  "description": "Password user tambahan." },
+        "TZ":              { "required": false, "secret": false, "description": "Zona waktu, contoh: Asia/Jakarta." },
+        "AUTHORIZED_KEYS": { "required": false, "secret": true,  "description": "Public key SSH untuk root. Login password tetap aktif." }
+      }
+    }
+  ],
+  "proxy": { "application": "alicia-vps-ssh", "ports": [ { "port": 22, "protocol": "tcp", "service": "alicia-vps-ssh" } ] }
+}
